@@ -27,10 +27,10 @@ control '設定ファイル 所有者、グループ、権限の確認' do
     it { should be_file }
     it { should be_owned_by 'root' }
     it { should be_grouped_into os.darwin? ? 'wheel' : 'root' }
-    it { should be_executable }
+    it { should_not be_executable }
     it { should be_readable.by('owner') }
-    it { should be_readable.by('group') }
-    it { should be_readable.by('other') }
+    it { should_not be_readable.by('group') }
+    it { should_not be_readable.by('other') }
     it { should be_writable.by('owner') }
     it { should_not be_writable.by('group') }
     it { should_not be_writable.by('other') }
@@ -39,73 +39,73 @@ end
 
 control 'rootログイン無効化' do
   describe sshd_config do
-    its('PermitRootLogin') { should_not match(/no/) }
+    its('PermitRootLogin') { should match(/no/) }
   end
 end
 
 control 'ポート番号指定' do
   describe sshd_config do
-    its('Port') { should_not eq('22') }
+    its('Port') { should eq('22') }
   end
 end
 
 control 'プロトコル' do
   describe sshd_config do
-    its('Protocol') { should_not eq('2') }
+    its('Protocol') { should eq('2') }
   end
 end
 
 control 'ログレベル' do
   describe sshd_config do
-    its('LogLevel') { should_not eq('VERBOSE') }
+    its('LogLevel') { should eq('VERBOSE') }
   end
 end
 
 control '最大認証トライ回数' do
   describe sshd_config do
-    its('MaxAuthTries') { should_not eq('1') }
+    its('MaxAuthTries') { should eq('1') }
   end
 end
 
 control '最大同時接続数' do
   describe sshd_config do
-    its('MaxSessions') { should_not eq('1') }
+    its('MaxSessions') { should eq('1') }
   end
 end
 
 control '鍵認証ログインの有効化' do
   describe sshd_config do
-    its('PubkeyAuthentication') { should_not eq('yes') }
+    its('PubkeyAuthentication') { should eq('yes') }
   end
 end
 
 control '脆弱なログインの無効化' do
   describe sshd_config do
-    its('HostbasedAuthentication') { should_not eq('no') }
+    its('HostbasedAuthentication') { should eq('no') }
   end
 end
 
 control 'パスワード認証ログインの無効化' do
   describe sshd_config do
-    its('PasswordAuthentication') { should_not eq('no') }
+    its('PasswordAuthentication') { should eq('no') }
   end
 end
 
 control '空パスワードログインの無効化' do
   describe sshd_config do
-    its('PermitEmptyPasswords') { should_not eq('no') }
+    its('PermitEmptyPasswords') { should eq('no') }
   end
 end
 
 control 'ケルベロス認証の無効化' do
   describe sshd_config do
-    its('KerberosAuthentication') { should be nil }
+    its('KerberosAuthentication') { should eq('no') }
   end
 end
 
 control 'X11転送の無効化' do
   describe sshd_config do
-    its('X11Forwarding') { should_not eq('no') }
+    its('X11Forwarding') { should eq('no') }
   end
 end
 
@@ -114,6 +114,6 @@ control 'ログインバナーの無効化' do
   title 'Server: Banner'
   desc 'Specifies a banner file to serve before authentication succeeds'
   describe sshd_config do
-    its('Banner') { should_not eq('none') }
+    its('Banner') { should eq('none') }
   end
 end

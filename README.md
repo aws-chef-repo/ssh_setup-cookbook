@@ -1,4 +1,9 @@
 # ssh_setup
 
-v1.0.0 : Full of insecure settings in config.
-v2.0.0 : Secure config and comply with all security compliance. 
+## 2.0.0
+
+`sshd_config` settings pass InSpec Security test. 
+
+## 1.0.0
+
+`sshd_config` settings does not pass InSpec Security test. 
