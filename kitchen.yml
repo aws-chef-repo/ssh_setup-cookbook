@@ -17,8 +17,8 @@ verifier:
 
 suites:
   - name: default
-    provisioner:
-        policyfile: policyfile.rb
+    run_list:
+      - recipe[ssh_setup::default]    
     verifier:
       inspec_tests:
         - test/integration/default
