@@ -1,10 +1,10 @@
 current_dir = File.dirname(__FILE__)
   user = 'r-goto'
   node_name                user
-  client_key               "/home/r-goto/r-goto.pem"
-  chef_server_url          "https://chef-automate.creationline.com/organizations/first-org"
+  client_key               "/home/ec2-user/r-goto.pem"
+  chef_server_url          "https://chef-automate.creationline.com/organizations/aws-org"
   cookbook_path            ["#{current_dir}/../cookbooks"]
-  cookbook_copyright       "First Org Cookbooks"
+  cookbook_copyright       "AWS Org Cookbooks"
   cookbook_license         "Apache-2.0"
   cookbook_email           "cookbooks@first.org"
   chef_license             'accept'

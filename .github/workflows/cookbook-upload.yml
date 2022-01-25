@@ -31,17 +31,31 @@ jobs:
         run: |
           sudo yum update -y
           sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-          sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-          sudo yum install -y docker-ce docker-ce-cli containerd.io
+          sudo yum install -y docker
           docker -v
           sudo usermod -aG docker $USER
-          sudo chmod 666 /run/docker.sock
+          sudo chmod 666 /usr/lib/systemd/system/docker.socket
+          sudo chmod 666 /var/run/docker.sock
           sudo service docker start
+          sudo systemctl enable docker
           service docker status
+      
+      - name: Docker Running?
+        continue-on-error: true
+        id: check-docker-status
+        run: sudo service docker status
+
+      - name: Start Docker
+        if: steps.check-docker-status.outcome == 'failure'
+        run: sudo service docker start
 
       - name: Kitchen Converge
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           kitchen destroy
+          knife node list -c .chef/config.rb | grep "default-*" | xargs knife node delete -y -c .chef/config.rb || echo "node deletion failed somehow"
+          knife client list -c .chef/config.rb | grep "default-*" | xargs knife client delete -y -c .chef/config.rb || echo "client delete failed somehow"
           docker container prune --force
           docker volume prune --force
           docker network prune --force
@@ -52,10 +66,16 @@ jobs:
           
       - name: Kitchen Test
         run: kitchen verify
-        
-      - name: Cleanup Containers 
+      
+      - name: Cleanup Containers
         if: always()
         run: kitchen destroy
+
+      - name: Delete node/client from Chef Server
+        if: always()
+        run: |
+          knife node list -c .chef/config.rb | grep "default-*" | xargs knife node delete -y -c .chef/config.rb || echo "node deletion failed somehow"
+          knife client list -c .chef/config.rb | grep "default-*" | xargs knife client delete -y -c .chef/config.rb || echo "client delete failed somehow"
 
   Cookbook-Upload:
     runs-on: self-hosted

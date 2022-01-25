@@ -2,9 +2,10 @@
 
 This file is used to list changes made in each version of the ssh_setup cookbook.
 
-## 0.1.0
+## 2.0.0
 
-Initial release.
+`sshd_config` settings pass InSpec Security test. 
 
-- change 0
-- change 1
+## 1.0.0
+
+`sshd_config` settings does not pass InSpec Security test. 
