@@ -12,3 +12,7 @@ cookbook_file '/etc/ssh/sshd_config' do
   action :create
   notifies :restart, 'service[sshd]'
 end
+
+service 'sshd' do
+  action :nothing
+end

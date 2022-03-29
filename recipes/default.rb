@@ -17,8 +17,5 @@ when 'ubuntu'
   end
 end
 
-# The recipe pass Security/Compliance InSpec Scan.
-include_recipe 'ssh_setup::setup_secure_ssh_config'
-
-# The recipe fails on Security/Compliance InSpec Scan.
-# include_recipe 'ssh_setup::setup_insecure_ssh_config'
+include_recipe "ssh_setup::#{node['ssh_setup']['ssh_config']}"
+include_profile 'ssh_setup::validation_tests'

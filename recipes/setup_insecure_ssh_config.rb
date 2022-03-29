@@ -10,4 +10,9 @@ cookbook_file '/etc/ssh/sshd_config' do
   group 'root'
   mode '0755'
   action :create
+  notifies :restart, 'service[sshd]'
+end
+
+service 'sshd' do
+  action :nothing
 end
