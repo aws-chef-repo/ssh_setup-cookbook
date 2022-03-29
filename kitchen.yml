@@ -14,11 +14,10 @@ provisioner:
   product_name: chef
   product_version: 17.9.52
 
-verifier:
-  name: inspec
-
 platforms:
   - name: rhel-8
+    driver:
+      tags: { "Name": "RHEL8-TestKitchen-ssh_setup" }
 
 suites:
   - name: default
@@ -28,6 +27,6 @@ suites:
       inspec_tests:
         - compliance/profiles/validation_tests
     attributes: { 
-     audit: { reporter: 'audit-enforcer' },
+     audit: { reporter: 'json-file' },
       environment: "production"
      }
