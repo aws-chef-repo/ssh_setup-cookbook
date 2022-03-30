@@ -14,9 +14,8 @@ provisioner:
   product_name: chef
   product_version: 17.9.52
 
-# v1.0.0はInSpecエラー不可避であるためコメントアウト
-# verifier:
-#   name: inspec
+verifier:
+  name: inspec
 
 platforms:
   - name: rhel-8
