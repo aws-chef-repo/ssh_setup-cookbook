@@ -20,7 +20,7 @@ verifier:
 platforms:
   - name: rhel-8
     driver:
-      tags: { "Name": "RHEL8-TestKitchen-ssh_setup" }
+      tags: { "Name": "ssh_setup-TestKitchen" }
 
 suites:
   - name: default
